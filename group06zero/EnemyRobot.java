@@ -19,7 +19,7 @@ public class EnemyRobot{
 		heading = e.getHeadingRadians();
 	}
 
-	public void Update(ScannedRobotEvent e,Group06zerogouki self){
+	public void UpdateEnemy(ScannedRobotEvent e,Group06zerogouki self){
 		hp = e.getEnergy();
 		heading = e.getHeading();
 		double absBearing=e.getBearingRadians()+self.getHeadingRadians();
@@ -28,19 +28,19 @@ public class EnemyRobot{
 		heading = e.getHeadingRadians();
 	}
 
-	public String getName(){
+	public String getEnemyName(){
 		return name;
 	}
-	public double getHp(){
+	public double getEnemyHp(){
 		return hp;
 	}
-	public double getX(){
+	public double getEnemyX(){
 		return x;
 	}
-	public double getY(){
+	public double getEnemyY(){
 		return y;
 	}
-	public double getHeading(){
+	public double getEnemyHeading(){
 		return heading;
 	}
 }
