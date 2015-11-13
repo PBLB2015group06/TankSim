@@ -26,7 +26,7 @@ public class Group06zerogouki extends Robot
 			ahead(100);
 			turnGunRight(360);
 			back(100);
-			turnGunRight(360);
+			turnGunRight(350);
 		}
 	}
 
