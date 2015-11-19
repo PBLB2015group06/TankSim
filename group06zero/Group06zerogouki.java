@@ -1,5 +1,6 @@
 package group06zero;
 import robocode.*;
+import java.util.*;//for list
 //import java.awt.Color;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
@@ -7,8 +8,9 @@ import robocode.*;
 /**
  * Group06zerogouki - a robot by (your name here)
  */
-public class Group06zerogouki extends Robot
+public class Group06zerogouki extends AdvancedRobot
 {
+	List<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
 	/**
 	 * run: Group06zerogouki's default behavior
 	 */
@@ -23,10 +25,14 @@ public class Group06zerogouki extends Robot
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-			ahead(100);
-			turnGunRight(360);
-			back(100);
-			turnGunRight(360);
+			turnRadarRight(360);
+			
+			AntiGravity g = new AntiGravity(this);
+			for (int i = 0; i < EnemyList.size(); i++) {
+				g.addF(EnemyList.get(i));
+			}
+			g.wallF();
+			g.move();
 		}
 	}
 
@@ -34,8 +40,19 @@ public class Group06zerogouki extends Robot
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
+		int i;
 		// Replace the next line with any behavior you would like
-		fire(1);
+		EnemyRobot enemy = new EnemyRobot(e, this);
+
+		for (i = 0; i < EnemyList.size(); i++) {
+			EnemyRobot tmp = EnemyList.get(i);
+			if(tmp.getEnemyName() == enemy.getEnemyName()){
+				tmp.UpdateEnemy(e, this);
+			}
+		}
+		if(i == EnemyList.size()){
+			EnemyList.add(enemy);
+		}
 	}
 
 	/**
