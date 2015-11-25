@@ -29,9 +29,15 @@ public class Group06zerogouki extends AdvancedRobot
 			
 			AntiGravity g = new AntiGravity(this);
 			for (int i = 0; i < EnemyList.size(); i++) {
-				g.addF(EnemyList.get(i));
+				g.addFrobot(EnemyList.get(i));
 			}
-			g.wallF();
+/*
+			for(int j = 0; j < 10; j++){
+				for (int i = 0; i < 10; i++) {
+					g.addFpoint(500, i*200, j*200);
+				}
+			}
+*/
 			g.move();
 		}
 	}
@@ -50,6 +56,7 @@ public class Group06zerogouki extends AdvancedRobot
 				tmp.UpdateEnemy(e, this);
 			}
 		}
+		
 		if(i == EnemyList.size()){
 			EnemyList.add(enemy);
 		}
