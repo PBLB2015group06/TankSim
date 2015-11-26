@@ -2,7 +2,7 @@ package groupt06zero;
 
 public class EvadePattern1 extends EvadePattern {  // this pattern evade point along with shot orbit
 	
-	public static float EVADE_CONSTANT = 1.0;
+	public static float EVADE_CONSTANT = 30.0;
 	public static double AVOID_RANGE = 5.0;
 	AntiGravity antiGravity;
 
@@ -20,10 +20,10 @@ public class EvadePattern1 extends EvadePattern {  // this pattern evade point a
 		// this calculate the time bullet will arrive on hypothesized with both of them has the same direction
 			double time = bulletInfo.calArrivingTime(robotPosition);
 			Vector2D bulletFuturePosition = bulletInfo.calFuturePosition(time);
-			robotLocalPosition = Vector2D.GetRotatedVector2D(robotPosition.sub(bulletFuturePosition),
-															 bulletInfo.getHeading());
+			//robotLocalPosition = Vector2D.GetRotatedVector2D(robotPosition.sub(bulletFuturePosition),
+			//												 bulletInfo.getHeading());
 
-			if (robotLocalPosition.y <= 0 || Math.abs(robotLocalPosition.x) > EVADE_CONSTANT) continue;
+			if (!isPointWithinAvoidRange(bulletFuturePosition)) continue;
 
 			count += 1;
 			averagePosition.add(bulletFuturePosition);
