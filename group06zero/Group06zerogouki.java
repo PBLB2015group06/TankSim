@@ -1,5 +1,7 @@
 package group06zero;
 import robocode.*;
+import java.util.List;
+import java.util.ArrayList;
 //import java.awt.Color;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
@@ -18,6 +20,8 @@ public class Group06zerogouki extends Robot
     private EvadePattern evadePattern;
     
     private boolean onEvade = false;
+
+    private List<BulletInfo> bulletList = new ArrayList<>();
     
 	public void run() {
 		// Initialization of the robot should be put here
@@ -52,6 +56,8 @@ public class Group06zerogouki extends Robot
         
         if (currentHp != previousHp) {
             onEvade = true;
+            double bulletHeading = getHeading() + e.getBearing();
+            bulletList.Add(new BulletInfo(x, y, bulletHeading))
             if (statsForEvede.isInfoEnough()) {
                 evadePattern = statsForEvede.getMostScoredPattern();
             }
