@@ -5,12 +5,10 @@ public class AntiGravity{
 	private double height = 0;
 	private double selfX = 0;
 	private double selfY = 0;
-	private double x = 0;
-	private double y = 0;
 	private double dis = 0;
 	private double F = 0;
 	private int G = 5000;//Gravitational constant
-	private int wallG = 50000;//Gravitational constant of Wall
+	private int wallG = 8000;//Gravitational constant of Wall
 	
 	static private double xF = 0;
 	static private double yF = 0;
@@ -29,9 +27,11 @@ public class AntiGravity{
 	}
 	
 	public void addFrobot(EnemyRobot e){
+		double x = 0;
+		double y = 0;
 		//Enemy's position(relative)
-		x = e.getEnemyX() - self.getX();
-		y = e.getEnemyY() - self.getY();
+		x = e.getEnemyX() - selfX;
+		y = e.getEnemyY() - selfY;
 		//Distance
 		dis = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 		//Force
@@ -41,13 +41,13 @@ public class AntiGravity{
 	}
 	
 	public void addFpoint(double exG, double x, double y){
-		//Enemy's position(relative)
-		x -= self.getX();
-		y -= self.getY();
+		//relative position
+		x = x - selfX;
+		y = y - selfY;
 		//Distance
 		dis = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 		//Force
-		F = exG/(Math.pow(x,2)+Math.pow(y,2));
+		F = exG/Math.pow(dis,2);
 		xF += F*x/dis;
 		yF += F*y/dis;
 	}
@@ -62,16 +62,24 @@ public class AntiGravity{
 		xF -= wallG/Math.pow(width - selfX, 2);//from Right
 		yF -= wallG/Math.pow(height - selfY, 2);//from Top
 
-		//MARGE
-		//Angle(relative, 0-360)
-		tan = Math.atan(yF/xF);
-		
-		if(xF > 0){
-			ang = 90 - 180*tan/pi;
-		}else{
-			ang = 270 - 180*tan/pi;
+		//check to attack wall
+		//x
+		if(0 < xF && width - selfX < xF){
+			xF = width - selfX - 50;
+		}else if(xF < 0 && selfX < -xF){
+			xF = -selfX + 50;
 		}
-		ang = ((ang - self.getHeading())%360 + 360)%360;
+		//y
+		if(0 < yF && height - selfY < yF){
+			yF = height - selfY - 50;
+		}else if(yF < 0 && selfY < -yF){
+			yF = -selfY + 50;
+		}
+		//MARGE
+		//Angle(relative, -pi to pi)
+		tan = Math.atan2(xF,yF);
+		//Angle(relative, -180 to 180)
+		ang = 180*tan/pi;
 		
 		//Force(local)
 		F = Math.sqrt(Math.pow(xF,2)+Math.pow(yF,2));
@@ -81,25 +89,22 @@ public class AntiGravity{
 	}
 
 	private void turn(double ang, double F){
-		if(ang < 90 || 270 < ang){
-			if(ang < 90){
+		if(-90 < ang && ang < 90){
+			if(0 < ang){
 				self.setTurnRight(ang);
-				self.setTurnGunLeft(ang);
-			}else if(270 < ang){
-				self.setTurnLeft(360-ang);
-				self.setTurnGunRight(360-ang);
+			}else{
+				self.setTurnLeft(-ang);
 			}
 			self.setAhead(F);
-		}else{//if 90<ang<270
-			if(ang < 180){
+		}else{//if -180 to -90 or 90 to 180
+			if(0 < ang){
 				self.setTurnLeft(180-ang);
-				self.setTurnGunRight(180-ang);
-			}else if(180 <= ang){
-				self.setTurnRight(ang-180);
-				self.setTurnGunLeft(ang-180);
+			}else{
+				self.setTurnRight(180+ang);
 			}
 			self.setBack(F);
 		}
-		self.execute();
+		self.setAdjustGunForRobotTurn(true);
+		self.turnRadarRight(360);
 	}
 }

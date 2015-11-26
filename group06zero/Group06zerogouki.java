@@ -21,22 +21,17 @@ public class Group06zerogouki extends AdvancedRobot
 		// and the next line:
 
 		// setColors(Color.red,Color.blue,Color.green); // body,gun,radar
-
+		turnRadarRight(360);
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-			turnRadarRight(360);
 			
 			AntiGravity g = new AntiGravity(this);
 			for (int i = 0; i < EnemyList.size(); i++) {
 				g.addFrobot(EnemyList.get(i));
 			}
 /*
-			for(int j = 0; j < 10; j++){
-				for (int i = 0; i < 10; i++) {
-					g.addFpoint(500, i*200, j*200);
-				}
-			}
+			g.addFpoint(500, 200, 200);
 */
 			g.move();
 		}
@@ -67,7 +62,7 @@ public class Group06zerogouki extends AdvancedRobot
 	 */
 	public void onHitByBullet(HitByBulletEvent e) {
 		// Replace the next line with any behavior you would like
-		back(10);
+		turnRadarRight(360);
 	}
 	
 	/**
@@ -75,6 +70,6 @@ public class Group06zerogouki extends AdvancedRobot
 	 */
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
-		back(20);
+		turnRadarRight(360);
 	}	
 }
