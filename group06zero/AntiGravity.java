@@ -1,5 +1,7 @@
 package group06zero;
 
+import java.awt.Point;
+
 public class AntiGravity{
 	private double width  = 0;
 	private double height = 0;
@@ -9,6 +11,7 @@ public class AntiGravity{
 	private double F = 0;
 	private int G = 5000;//Gravitational constant
 	private int wallG = 8000;//Gravitational constant of Wall
+	private double pi = Math.PI;
 	
 	static private double xF = 0;
 	static private double yF = 0;
@@ -55,7 +58,6 @@ public class AntiGravity{
 	public void move(){
 		double F = 0;
 		double tan = 0;
-		double pi = Math.PI;
 		//add force from wall
 		xF += wallG/Math.pow(selfX, 2);//from Left
 		yF += wallG/Math.pow(selfY, 2);//from Bottom
@@ -88,6 +90,20 @@ public class AntiGravity{
 		//}
 	}
 
+	public void getNextPoint(){
+		double absoluteAngle;
+		double futureX;
+		double futureY;
+		int intX;
+		int intY;
+		absoluteAngle = (self.getGunHeading() + ang)*pi/180;
+		futureX = selfX + F * Math.cos(absoluteAngle);
+		futureY = selfY + F * Math.sin(absoluteAngle);
+		intX = (int) futureX;
+		intY = (int) futureY;
+		return new Point(intX,intY);
+	}
+
 	private void turn(double ang, double F){
 		if(-90 < ang && ang < 90){
 			if(0 < ang){
@@ -105,6 +121,6 @@ public class AntiGravity{
 			self.setBack(F);
 		}
 		self.setAdjustGunForRobotTurn(true);
-		self.turnRadarRight(360);
+		self.setTurnRadarRight(360);
 	}
 }
