@@ -49,7 +49,7 @@ public class Group06zerogouki extends Robot
 		fire(1);
         
         //-------回避するべきかどうか---------
-        EmemyRobot ememyRobot = RobotInfoResistry.getRobotInfo(e.getName());
+        EmemyRobot ememyRobot = RobotInfoResistry.getRobotInfo(e,this);
         
         int previousHp = ememyRobot.getHp();
         int currentHp  = e.geEnergy();
