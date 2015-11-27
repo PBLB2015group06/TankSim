@@ -1,7 +1,5 @@
 package group06zero;
 
-import java.awt.Point;
-
 public class AntiGravity{
 	private double width  = 0;
 	private double height = 0;
@@ -17,18 +15,21 @@ public class AntiGravity{
 	static private double yF = 0;
 	static private double ang = 0;
 
-	private Group06zerogouki self = new Group06zerogouki();
-	
+	private Group06zerogouki self;
+
 	AntiGravity(Group06zerogouki me){
 		self = me;
 		//Field info
 		width  = self.getBattleFieldWidth();
 		height = self.getBattleFieldHeight();
+	}
+
+	public void getMyPosition(){
 		//My position(absolute)
 		selfX = self.getX();
 		selfY = self.getY();
 	}
-	
+
 	public void addFrobot(EnemyRobot e){
 		double x = 0;
 		double y = 0;
@@ -85,23 +86,8 @@ public class AntiGravity{
 		
 		//Force(local)
 		F = Math.sqrt(Math.pow(xF,2)+Math.pow(yF,2));
-		//if(F > 5){
-			turn(ang, F);
-		//}
-	}
-
-	public void getNextPoint(){
-		double absoluteAngle;
-		double futureX;
-		double futureY;
-		int intX;
-		int intY;
-		absoluteAngle = (self.getGunHeading() + ang)*pi/180;
-		futureX = selfX + F * Math.cos(absoluteAngle);
-		futureY = selfY + F * Math.sin(absoluteAngle);
-		intX = (int) futureX;
-		intY = (int) futureY;
-		return new Point(intX,intY);
+		
+		turn(ang, F);
 	}
 
 	private void turn(double ang, double F){
@@ -121,6 +107,6 @@ public class AntiGravity{
 			self.setBack(F);
 		}
 		self.setAdjustGunForRobotTurn(true);
-		self.setTurnRadarRight(360);
+		self.turnRadarRight(360);
 	}
 }

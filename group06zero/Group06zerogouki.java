@@ -11,6 +11,8 @@ import java.util.*;//for list
 public class Group06zerogouki extends AdvancedRobot
 {
 	List<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
+	AntiGravity g;
+
 	/**
 	 * run: Group06zerogouki's default behavior
 	 */
@@ -21,18 +23,15 @@ public class Group06zerogouki extends AdvancedRobot
 		// and the next line:
 
 		// setColors(Color.red,Color.blue,Color.green); // body,gun,radar
+		g = new AntiGravity(this);
 		turnRadarRight(360);
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-			
-			AntiGravity g = new AntiGravity(this);
+			g.getMyPosition();
 			for (int i = 0; i < EnemyList.size(); i++) {
 				g.addFrobot(EnemyList.get(i));
 			}
-/*
-			g.addFpoint(500, 200, 200);
-*/
 			g.move();
 		}
 	}
@@ -51,7 +50,7 @@ public class Group06zerogouki extends AdvancedRobot
 				tmp.UpdateEnemy(e, this);
 			}
 		}
-		
+
 		if(i == EnemyList.size()){
 			EnemyList.add(enemy);
 		}
@@ -64,12 +63,12 @@ public class Group06zerogouki extends AdvancedRobot
 		// Replace the next line with any behavior you would like
 		turnRadarRight(360);
 	}
-	
+
 	/**
 	 * onHitWall: What to do when you hit a wall
 	 */
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
 		turnRadarRight(360);
-	}	
+	}
 }
