@@ -6,15 +6,13 @@ public class BulletInfo {
 	private double bulletSpeed;
 	private Vector2D position = new Vector2D();
 	private double heading;
+	private Vector2D headingVector;
+	private long lastUpdateTime = 0;
 
 	public BulletInfo(double x, double y, double heading) {
 		this.position = new Vector2D(x, y);
 		this.heading = heading;
-	}
-
-	public BulletInfo(Vector2D position, double heading) {
-		this.position = position;
-		this.heading = heading;
+		this.headingVector = Vector2D.GetDirectionalVectorFromDegree(heading);
 	}
 
 	public Vector2D getPosition() {
@@ -23,6 +21,10 @@ public class BulletInfo {
 
 	public double getHeading() {
 		return this.heading;
+	}
+
+	public void update(long deltaTime) {
+		position.add(headingVector.mul(bulletSpeed * deltaTime / 1000));
 	}
 
 	public Vector2D calFuturePosition(double time) {
