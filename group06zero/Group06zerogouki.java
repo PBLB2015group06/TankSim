@@ -1,5 +1,7 @@
 package group06zero;
 import robocode.*;
+import java.util.List;
+import java.util.ArrayList;
 //import java.awt.Color;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
@@ -12,6 +14,15 @@ public class Group06zerogouki extends Robot
 	/**
 	 * run: Group06zerogouki's default behavior
 	 */
+    private StatisticForEvade statsForEvede;
+    private StatisticForAttack statsForAttack;
+    
+    private EvadePattern evadePattern;
+    
+    private boolean onEvade = false;
+
+    private List<BulletInfo> bulletList = new ArrayList<>();
+    
 	public void run() {
 		// Initialization of the robot should be put here
 
@@ -36,6 +47,22 @@ public class Group06zerogouki extends Robot
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Replace the next line with any behavior you would like
 		fire(1);
+        
+        //-------回避するべきかどうか---------
+        EmemyRobot ememyRobot = RobotInfoResistry.getRobotInfo(e.getName());
+        
+        int previousHp = ememyRobot.getHp();
+        int currentHp  = e.geEnergy();
+        
+        if (currentHp != previousHp) {
+            onEvade = true;
+            double bulletHeading = getHeading() + e.getBearing();
+            bulletList.Add(new BulletInfo(x, y, bulletHeading))
+            if (statsForEvede.isInfoEnough()) {
+                evadePattern = statsForEvede.getMostScoredPattern();
+            }
+        }
+        //---------------------------------
 	}
 
 	/**
@@ -44,6 +71,8 @@ public class Group06zerogouki extends Robot
 	public void onHitByBullet(HitByBulletEvent e) {
 		// Replace the next line with any behavior you would like
 		back(10);
+        
+        statsForEvede.estimateScore(evadePattern, -10);
 	}
 	
 	/**
