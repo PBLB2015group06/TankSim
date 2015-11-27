@@ -1,5 +1,12 @@
 package group06zero;
 
 public abstract class EvadePattern {
-	public abstract void execute(Robot robot);
+
+	protected Robot owner;
+
+	public EvadePattern(Robot owner) {
+		this.owner = owner;
+	}
+
+	public abstract void execute(List<BulletInfo> bulleInfoList);
 }
