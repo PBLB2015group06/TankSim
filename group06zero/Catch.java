@@ -3,9 +3,7 @@ import robocode.*;
 import robocode.util.Utils;
 import java.awt.geom.Point2D;
 import java.awt.Color;
-//import java.awt.Color;
-
-// API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
+//import java.awt.Color
 
 /**
  * Catch - a robot by (your name here)
