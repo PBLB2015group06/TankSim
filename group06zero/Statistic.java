@@ -26,7 +26,7 @@ public abstract class Statistic<T> {
 		totalScore += INITIAL_SCORE;
 	}
 
-	public evadePattern getMostScoredPattern() {
+	public T getMostScoredPattern() {
 		maxScore = -1000;
 		String scoredPatternKey;
 		foreach(key, score : scoreMap) {
@@ -38,7 +38,7 @@ public abstract class Statistic<T> {
 		return patternMap.get(scoredPatternKey);
 	}
 
-	public evadePattern getPatternBasedOnProbability() {
+	public T getPatternBasedOnProbability() {
 		double randomNum = rnd.nextDouble();
 		int accumulation = 0;
 		Collection<T> patternCollection = patternMap.values();
