@@ -27,9 +27,9 @@ public class BulletInfo {
 		position.add(headingVector.mul(bulletSpeed * deltaTime / 1000));
 	}
 
-	public Vector2D calFuturePosition(double time) {
+	public Vector2D calFuturePosition(long time) {
 		Vector2D headingVector = Vector2D.GetDirectionalVectorFromDegree(this.heading);
-		return Vector2D.Add(position, headingVector.mul(time * bulletSpeed));
+		return Vector2D.Add(position, headingVector.mul(time / 1000 * bulletSpeed));
 	}
 
 	public double calArrivingTime(Vector2D targetPosition) {
