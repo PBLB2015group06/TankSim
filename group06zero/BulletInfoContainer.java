@@ -14,6 +14,10 @@ public class BulletInfoContainer {
 		this.owner = owner;
 	}
 
+	public List<BulletInfo> getBulletList() {
+		return bulletList;
+	}
+
 	public update(long deltaTime) {
 		foreach(bullet : bulletList) {
 			bullet.update(deltaTime);
