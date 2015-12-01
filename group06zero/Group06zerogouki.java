@@ -12,6 +12,9 @@ public class Group06zerogouki extends Robot
 	/**
 	 * run: Group06zerogouki's default behavior
 	 */
+
+    private Point pastVelocity = 0;
+
 	public void run() {
 		// Initialization of the robot should be put here
 
@@ -27,6 +30,7 @@ public class Group06zerogouki extends Robot
 			turnGunRight(360);
 			back(100);
 			turnGunRight(360);
+            this.pastVelocity = this.getVelocity();
 		}
 	}
 
@@ -53,4 +57,9 @@ public class Group06zerogouki extends Robot
 		// Replace the next line with any behavior you would like
 		back(20);
 	}	
+
+    private double getAcceleration(){
+        double acceleration = this.getVelocity() - this.pastVelocity;
+        return acceleration;
+    }
 }
