@@ -15,6 +15,13 @@ public class Group06zerogouki extends Robot
 	 */
 
     private Point pastVelocity = 0;
+    private ShootingMethod shootingMethod;
+    private InertiaDeviationShooting inertiaDeviationShooting;
+    
+    public Group06zerogouki(){
+        this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
+        this.shootingMethod = inertiaDeviationShooting;
+    }
 
 	public void run() {
 		// Initialization of the robot should be put here
@@ -40,6 +47,7 @@ public class Group06zerogouki extends Robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Replace the next line with any behavior you would like
+        this.shootingMethod.fire(1);
 		fire(1);
 	}
 
