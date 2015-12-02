@@ -12,18 +12,21 @@ public class InertiaDeviationShooting extends ShootingMethod{
 
     public void fire(double bullet_power, ScannedRobotEvent event){
         EnemyRobot enemy = new EnemyRobot(event, myTank);
-        Point currentMyPoint = new Point(this.myTank.getX(), this.myTank.getY());
         Point currentEnemyPoint = new Point(enemy.getEnemyX(), enemy.getEnemyY());
         double enemyHeadingRadian = event.getHeadingRadians();
         double enemyVelocity = event.getVelocity();
-        Point nextEnemyPoint = new Point(currentEnemyPoint.x + (int)(enemyVelocity * Math.sin(enemyHeadingRadian)),
-               currentEnemyPoint.x + (int)(enemyVelocity * Math.cos(enemyHeadingRadian)));
-        double myMoveDistance = this.getVelocity + this.getAcceleration() / 2;
-        Point nextMyPoint = new Point(currentMyPoint.x + (int)(myMoveDistance * Math.sin(Math.toRadians(this.myTank.getHeading()))),
-                currentMyPoint.y + (int)(myMoveDistance * Math.cos(Math.toRadians(this.myTank.getHeading()))));
-        double myTankToEnemyRadian = Math.atan((nextMyPoint.x - nextEnemyPoint.x) / (nextMyPoint.y - nextEnemyPoint.y));    // arctan(x/y)
-        double myTankGunToEnemyRadian = myTankToEnemyRadian - this.myTank.getGunHeadingRadian;
-        myTank.setTurnGunRightRadians(myTankToEnemyRadian);
+        //弾が当たるまでの時間を求める
+        //時間はCt^2-Bt-A=0の解t
+        double enemyVelocityX = enemyVelocity * Math.sin(enemyHeadingRadian);
+        double enemyVelocityY = enemyVelocity * Math.cos(enemyHeadingRadian);
+        double A = Math.pow(currentEnemyPoint.x, 2) + Math.pow(currentEnemyPoint.y, 2);
+        double B = 2 * (enemyVelocityX * currentEnemyPoint.x + enemyVelocityY * currentEnemyPoint.y);
+        double C = Math.pow((20 - 3 * bullet_power), 2) - Math.pow(enemyVelocityX, 2) - Math.pow(enemyVelocityY, 2);
+        double t = (B + Math.sqrt(Math.pow(B, 2) + 4 * A * C)) / 2;
+        double enemyMoveDistance = enemyVelocity * t;
+        Point nextEnemyPoint = new Point(currentEnemyPoint.x + (int)enemyVelocityX,
+               currentEnemyPoint.x + (int)enemyVelocityY);
+        this.myTank.setTurnGunToTarget(nextEnemyPoint);
         this.myTank.fire(bullet_power);
     }
 }

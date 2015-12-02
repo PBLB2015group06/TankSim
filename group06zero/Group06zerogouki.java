@@ -1,4 +1,5 @@
 package group06zero;
+import java.awt.*;
 import robocode.*;
 //import java.awt.Color;
 
@@ -61,5 +62,25 @@ public class Group06zerogouki extends Robot
     private double getAcceleration(){
         double acceleration = this.getVelocity() - this.pastVelocity;
         return acceleration;
+    }
+
+    //1tick後の自分の戦車の位置を取得する
+    private Point getNextMyPoint(){
+        double myX = this.getX();
+        double myY = this.getY();
+        double myHeading = this.getHeading();
+        double myMoveDistance = this.getVelocity() + this.getAcceleration() / 2;
+        return new Point(
+            myX + (int)(myMoveDistance * Math.sin(Math.toRadians(myHeading))),
+            myY + (int)(myMoveDistance * Math.cos(Math.toRadians(myHeading)))
+        );
+    }
+
+    //1tick後に自分の戦車が移動した
+    private void setTurnGunToTarget(Point targetPoint){
+        Point nextMyPoint = this.getNextMyPoint();
+        double myTankToEnemyRadian = Math.atan((nextMyPoint.x - targetPoint.x) / (nextMyPoint.y - targetPoint.y));
+        double myTankGunToEnemyRadian = myTankToEnemyRadian - this.getGunHeadingRadian();
+        this.setTurnGunRightRadians(myTankGunToEnemyRadian);
     }
 }
