@@ -64,7 +64,7 @@ public class Group06zerogouki extends Robot
         EmemyRobot ememyRobot = RobotInfoResistry.getRobotInfo(e,this);
         
         int previousHp = ememyRobot.getHp();
-        int currentHp  = e.geEnergy();
+        int currentHp  = e.getEnergy();
         
         if (currentHp != previousHp) {
             onEvade = true;
