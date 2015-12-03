@@ -1,4 +1,4 @@
-package Group06zero;
+package group06zero;
 import java.awt.*;
 import robocode.*;
 
@@ -6,7 +6,7 @@ import robocode.*;
 public class InertiaDeviationShooting extends ShootingMethod{
     private Group06zerogouki myTank;
 
-    public InertiaDeviationShooting(Robot myTank){
+    public InertiaDeviationShooting(Group06zerogouki myTank){
         this.myTank = myTank;
     }
 

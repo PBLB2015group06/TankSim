@@ -10,23 +10,22 @@ import java.util.ArrayList;
 /**
  * Group06zerogouki - a robot by (your name here)
  */
-public class Group06zerogouki extends Robot
+public class Group06zerogouki extends TeamRobot
 {
 	/**
 	 * run: Group06zerogouki's default behavior
 	 */
     private StatisticForEvade statsForEvede;
-    private StatisticForAttack statsForAttack;
     
     private EvadePattern evadePattern;
     
     private boolean onEvade = false;
 
-    private List<BulletInfo> bulletList = new ArrayList<>();
+    private List<BulletInfo> bulletList = new ArrayList<BulletInfo>();
     
-    private Point pastVelocity = 0;
-    private ShootingMethod shootingMethod;
+    private double pastVelocity = 0;
     private InertiaDeviationShooting inertiaDeviationShooting;
+	private ShootingMethod shootingMethod;
     
     public Group06zerogouki(){
         this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
@@ -57,19 +56,18 @@ public class Group06zerogouki extends Robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Replace the next line with any behavior you would like
-        this.shootingMethod.fire(1);
+        this.shootingMethod.fire(1,e);
 		fire(1);
-        
         //-------回避するべきかどうか---------
-        EmemyRobot ememyRobot = RobotInfoResistry.getRobotInfo(e,this);
+        EnemyRobot eemyRobot = RobotInfoResistry.getRobotInfo(e,this);
         
-        int previousHp = ememyRobot.getHp();
-        int currentHp  = e.getEnergy();
+        double previousHp = enemyRobot.getEnemyHp();
+        double currentHp  = e.getEnergy();
         
         if (currentHp != previousHp) {
             onEvade = true;
             double bulletHeading = getHeading() + e.getBearing();
-            bulletList.Add(new BulletInfo(x, y, bulletHeading))
+            bulletList.add(new BulletInfo(enemyRobot.getEnemyX(), enemyRobot.getEnemyY(), bulletHeading));
             if (statsForEvede.isInfoEnough()) {
                 evadePattern = statsForEvede.getMostScoredPattern();
             }
@@ -116,7 +114,7 @@ public class Group06zerogouki extends Robot
     private void setTurnGunToTarget(Point targetPoint){
         Point nextMyPoint = this.getNextMyPoint();
         double myTankToEnemyRadian = Math.atan((nextMyPoint.x - targetPoint.x) / (nextMyPoint.y - targetPoint.y));
-        double myTankGunToEnemyRadian = myTankToEnemyRadian - this.getGunHeadingRadian();
+        double myTankGunToEnemyRadian = myTankToEnemyRadian - this.getGunHeadingRadians();
         this.setTurnGunRightRadians(myTankGunToEnemyRadian);
     }
 }

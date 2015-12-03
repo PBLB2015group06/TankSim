@@ -1,15 +1,16 @@
 package group06zero;
+import java.awt.*;
 import robocode.*;
 import java.awt.geom.Point2D;
 
-public class EnemyRobot{
+public class EnemyRobot {
 
 	static private String name;
 	static private double hp;
 	static private double x,y;
 	static private double heading;
 
-	EnemyRobot(ScannedRobotEvent e,Group06zerogouki self){
+	EnemyRobot(ScannedRobotEvent e,TeamRobot self){
 		name = e.getName();
 		hp = e.getEnergy();
 		heading = e.getHeading();
@@ -19,7 +20,7 @@ public class EnemyRobot{
 		heading = e.getHeadingRadians();
 	}
 
-	public void UpdateEnemy(ScannedRobotEvent e,Group06zerogouki self){
+	public void UpdateEnemy(ScannedRobotEvent e,TeamRobot self){
 		hp = e.getEnergy();
 		heading = e.getHeading();
 		double absBearing=e.getBearingRadians()+self.getHeadingRadians();

@@ -6,7 +6,7 @@ import java.util.Random;
 
 
 public class StatisticForEvade {
-	public static final String EVADE_PATTERN_ARRAY = {"EvadePattern1", "EvadePattern2", "EvadePattern3"};
+	public static final String[] EVADE_PATTERN_ARRAY = {"EvadePattern1", "EvadePattern2", "EvadePattern3"};
 	public static final double INITIAL_SCORE = 50;
 
 	private Map<String, EvadePattern> evadePatternMap;
@@ -20,7 +20,7 @@ public class StatisticForEvade {
 		this.evadePatternMap = new HashMap<>();
 		this.scoreMap = new HashMap<>();
 		totalScore = 0;
-		foreach(String patternName : EVADE_PATTERN_ARRAY) {
+		for(String patternName : EVADE_PATTERN_ARRAY) {
 			scoreMap.put(patternName, INITIAL_SCORE);
 			totalScore += INITIAL_SCORE;
 		}
@@ -45,7 +45,7 @@ public class StatisticForEvade {
 	public evadePattern getPatternBasedOnProbability() {
 		double randomNum = rnd.nextDouble();
 		int accumulation = 0;
-		foreach (evadePattern : EVADE_PATTERN_ARRAY) {
+		for (String evadePattern : EVADE_PATTERN_ARRAY) {
 			normalizedScore = scoreMap.get(evadePattern) / totalScore;
 			if (accumulation <= randomNum && randomNum <= normalizedScore) {
 				return evadePatternMap.get(evadePattern);
