@@ -11,9 +11,9 @@ public class AntiGravity{
 	private int wallG = 8000;//Gravitational constant of Wall
 	private double pi = Math.PI;
 	
-	static private double xF = 0;
-	static private double yF = 0;
-	static private double ang = 0;
+	private double xF = 0;
+	private double yF = 0;
+	private double ang = 0;
 
 	private Group06zerogouki self;
 
@@ -88,6 +88,9 @@ public class AntiGravity{
 		F = Math.sqrt(Math.pow(xF,2)+Math.pow(yF,2));
 		
 		turn(ang, F);
+		//reset
+		xF = 0;
+		yF = 0;
 	}
 
 	private void turn(double ang, double F){
