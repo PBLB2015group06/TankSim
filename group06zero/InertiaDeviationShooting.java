@@ -4,15 +4,16 @@ import robocode.*;
 
 //慣性偏差射撃
 public class InertiaDeviationShooting extends ShootingMethod{
-    private Group06zerogouki myTank;
+    private TeamRobot myTank;
 
-    public InertiaDeviationShooting(Group06zerogouki myTank){
+    public InertiaDeviationShooting(TeamRobot myTank){
         this.myTank = myTank;
     }
 
+    @Override
     public void fire(double bullet_power, ScannedRobotEvent event){
         EnemyRobot enemy = new EnemyRobot(event, myTank);
-        Point currentEnemyPoint = new Point(enemy.getEnemyX(), enemy.getEnemyY());
+        Point currentEnemyPoint = new Point((int)enemy.getEnemyX(), (int)enemy.getEnemyY());
         double enemyHeadingRadian = event.getHeadingRadians();
         double enemyVelocity = event.getVelocity();
         //弾が当たるまでの時間を求める
@@ -23,9 +24,8 @@ public class InertiaDeviationShooting extends ShootingMethod{
         double B = 2 * (enemyVelocityX * currentEnemyPoint.x + enemyVelocityY * currentEnemyPoint.y);
         double C = Math.pow((20 - 3 * bullet_power), 2) - Math.pow(enemyVelocityX, 2) - Math.pow(enemyVelocityY, 2);
         double t = (B + Math.sqrt(Math.pow(B, 2) + 4 * A * C)) / 2;
-        double enemyMoveDistance = enemyVelocity * t;
-        Point nextEnemyPoint = new Point(currentEnemyPoint.x + (int)enemyVelocityX,
-               currentEnemyPoint.x + (int)enemyVelocityY);
+        Point nextEnemyPoint = new Point(currentEnemyPoint.x + (int)(enemyVelocityX * t),
+               currentEnemyPoint.x + (int)(enemyVelocityY * t));
         this.myTank.setTurnGunToTarget(nextEnemyPoint);
         this.myTank.fire(bullet_power);
     }
