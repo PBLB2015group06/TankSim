@@ -4,10 +4,10 @@ import robocode.*;
 
 public class EnemyRobot{
 
-	static private String name;
-	static private double hp;
-	static private double x,y;
-	static private double heading;
+	private String name;
+	private double hp;
+	private double x,y;
+	private double heading;
 
 	EnemyRobot(ScannedRobotEvent e,Group06zerogouki self){
 		name = e.getName();

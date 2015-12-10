@@ -42,17 +42,20 @@ public class Group06zerogouki extends AdvancedRobot
 	public void onScannedRobot(ScannedRobotEvent e) {
 		int i;
 		// Replace the next line with any behavior you would like
-		EnemyRobot enemy = new EnemyRobot(e, this);
 
 		for (i = 0; i < EnemyList.size(); i++) {
 			EnemyRobot tmp = EnemyList.get(i);
-			if(tmp.getEnemyName() == enemy.getEnemyName()){
+			if(tmp.getEnemyName().equals(e.getName())){
 				tmp.UpdateEnemy(e, this);
+				out.println("UPDATE" + e.getName());
+				break;
 			}
+			out.println("LIST:[" + i + "] " + tmp.getEnemyName());
 		}
 
 		if(i == EnemyList.size()){
-			EnemyList.add(enemy);
+			EnemyList.add((EnemyRobot)new EnemyRobot(e, this));
+			out.println("INDERT" + e.getName());
 		}
 	}
 

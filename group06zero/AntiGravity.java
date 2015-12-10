@@ -7,8 +7,8 @@ public class AntiGravity{
 	private double selfY = 0;
 	private double dis = 0;
 	private double F = 0;
-	private int G = 5000;//Gravitational constant
-	private int wallG = 8000;//Gravitational constant of Wall
+	private int G = 3000;//Gravitational constant
+	private int wallG = 320000;//Gravitational constant of Wall
 	private double pi = Math.PI;
 	
 	private double xF = 0;
@@ -39,9 +39,11 @@ public class AntiGravity{
 		//Distance
 		dis = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 		//Force
-		F = G/(Math.pow(x,2)+Math.pow(y,2));
+		F = G/(Math.pow(x,1)+Math.pow(y,1));
 		xF += F*x/dis;
 		yF += F*y/dis;
+		
+		System.out.println("ENEMY F : " + F +" (x..."+ F*x/dis + ", y..." + F*y/dis + ")");
 	}
 	
 	public void addFpoint(double exG, double x, double y){
@@ -64,6 +66,11 @@ public class AntiGravity{
 		yF += wallG/Math.pow(selfY, 2);//from Bottom
 		xF -= wallG/Math.pow(width - selfX, 2);//from Right
 		yF -= wallG/Math.pow(height - selfY, 2);//from Top
+		
+		System.out.println("WALL-top:    "+wallG/Math.pow(height - selfY, 2));
+		System.out.println("WALL-right:  "+wallG/Math.pow(width - selfX, 2));
+		System.out.println("WALL-bottom: "+wallG/Math.pow(selfY, 2));
+		System.out.println("WALL-left:   "+wallG/Math.pow(selfX, 2));
 
 		//check to attack wall
 		//x
@@ -78,14 +85,18 @@ public class AntiGravity{
 		}else if(yF < 0 && selfY < -yF){
 			yF = -selfY + 50;
 		}
+
 		//MARGE
 		//Angle(relative, -pi to pi)
 		tan = Math.atan2(xF,yF);
 		//Angle(relative, -180 to 180)
 		ang = 180*tan/pi;
+		ang -= self.getHeading() - 180;
 		
 		//Force(local)
 		F = Math.sqrt(Math.pow(xF,2)+Math.pow(yF,2));
+		
+		System.out.println("MOVE:ang= " + ang + ", F= " + F);
 		
 		turn(ang, F);
 		//reset
