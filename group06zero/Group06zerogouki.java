@@ -16,9 +16,6 @@ import java.util.*;//for list
  */
 <<<<<<< HEAD
 public class Group06zerogouki extends TeamRobot
-=======
-public class Group06zerogouki extends AdvancedRobot
->>>>>>> origin/#12ogura
 {
 	List<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
 	AntiGravity g;
@@ -55,19 +52,16 @@ public class Group06zerogouki extends AdvancedRobot
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-<<<<<<< HEAD
 			ahead(100);
 			turnGunRight(360);
 			back(100);
 			turnGunRight(360);
             this.pastVelocity = this.getVelocity();
-=======
 			g.getMyPosition();
 			for (int i = 0; i < EnemyList.size(); i++) {
 				g.addFrobot(EnemyList.get(i));
 			}
 			g.move();
->>>>>>> origin/#12ogura
 		}
 	}
 
@@ -76,8 +70,6 @@ public class Group06zerogouki extends AdvancedRobot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 		int i;
-		// Replace the next line with any behavior you would like
-<<<<<<< HEAD
         this.shootingMethod.fire(1,e);
 		fire(1);
         //-------回避するべきかどうか---------
@@ -95,7 +87,6 @@ public class Group06zerogouki extends AdvancedRobot
             }
         }
         //---------------------------------
-=======
 
 		for (i = 0; i < EnemyList.size(); i++) {
 			EnemyRobot tmp = EnemyList.get(i);
@@ -111,7 +102,6 @@ public class Group06zerogouki extends AdvancedRobot
 			EnemyList.add((EnemyRobot)new EnemyRobot(e, this));
 			out.println("INDERT" + e.getName());
 		}
->>>>>>> origin/#12ogura
 	}
 
 	/**
@@ -119,13 +109,10 @@ public class Group06zerogouki extends AdvancedRobot
 	 */
 	public void onHitByBullet(HitByBulletEvent e) {
 		// Replace the next line with any behavior you would like
-<<<<<<< HEAD
 		back(10);
         
         statsForEvede.estimateScore(evadePattern, -10);
-=======
 		turnRadarRight(360);
->>>>>>> origin/#12ogura
 	}
 
 	/**
@@ -133,7 +120,6 @@ public class Group06zerogouki extends AdvancedRobot
 	 */
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
-<<<<<<< HEAD
 		back(20);
 	}	
 
@@ -162,8 +148,6 @@ public class Group06zerogouki extends AdvancedRobot
         this.setTurnGunRightRadians(myTankGunToEnemyRadian);
     }
 }
-=======
 		turnRadarRight(360);
 	}
 }
->>>>>>> origin/#12ogura
