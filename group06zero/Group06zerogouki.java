@@ -1,12 +1,9 @@
 package group06zero;
 import java.awt.*;
 import robocode.*;
-<<<<<<< HEAD
 import java.util.List;
 import java.util.ArrayList;
-=======
 import java.util.*;//for list
->>>>>>> origin/#12ogura
 //import java.awt.Color;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
@@ -14,7 +11,7 @@ import java.util.*;//for list
 /**
  * Group06zerogouki - a robot by (your name here)
  */
-<<<<<<< HEAD
+
 public class Group06zerogouki extends TeamRobot
 {
 	List<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
@@ -73,7 +70,7 @@ public class Group06zerogouki extends TeamRobot
         this.shootingMethod.fire(1,e);
 		fire(1);
         //-------回避するべきかどうか---------
-        EnemyRobot eemyRobot = RobotInfoResistry.getRobotInfo(e,this);
+        EnemyRobot enemyRobot = RobotInfoResistry.getRobotInfo(e,this);
         
         double previousHp = enemyRobot.getEnemyHp();
         double currentHp  = e.getEnergy();
