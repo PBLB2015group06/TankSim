@@ -1,10 +1,14 @@
 package group06zero;
 
+import java.util.List;
+
+import robocode.TeamRobot;
+
 public abstract class EvadePattern {
 
-	protected Robot owner;
+	protected TeamRobot owner;
 
-	public EvadePattern(Robot owner) {
+	public EvadePattern(TeamRobot owner) {
 		this.owner = owner;
 	}
 

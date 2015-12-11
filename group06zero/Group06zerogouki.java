@@ -1,10 +1,14 @@
 package group06zero;
-import java.awt.*;
-import robocode.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.*;//for list
+import java.awt.Point;
+//for list
 //import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+import robocode.HitByBulletEvent;
+import robocode.HitWallEvent;
+import robocode.ScannedRobotEvent;
+import robocode.TeamRobot;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
 
@@ -21,17 +25,17 @@ public class Group06zerogouki extends TeamRobot
 	 * run: Group06zerogouki's default behavior
 	 */
     private StatisticForEvade statsForEvede;
-    
+
     private EvadePattern evadePattern;
-    
+
     private boolean onEvade = false;
 
     private List<BulletInfo> bulletList = new ArrayList<BulletInfo>();
-    
+
     private double pastVelocity = 0;
     private InertiaDeviationShooting inertiaDeviationShooting;
 	private ShootingMethod shootingMethod;
-    
+
     public Group06zerogouki(){
         this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
         this.shootingMethod = inertiaDeviationShooting;
@@ -71,10 +75,10 @@ public class Group06zerogouki extends TeamRobot
 		fire(1);
         //-------回避するべきかどうか---------
         EnemyRobot enemyRobot = RobotInfoResistry.getRobotInfo(e,this);
-        
+
         double previousHp = enemyRobot.getEnemyHp();
         double currentHp  = e.getEnergy();
-        
+
         if (currentHp != previousHp) {
             onEvade = true;
             double bulletHeading = getHeading() + e.getBearing();
@@ -107,7 +111,7 @@ public class Group06zerogouki extends TeamRobot
 	public void onHitByBullet(HitByBulletEvent e) {
 		// Replace the next line with any behavior you would like
 		back(10);
-        
+
         statsForEvede.estimateScore(evadePattern, -10);
 		turnRadarRight(360);
 	}
@@ -118,7 +122,7 @@ public class Group06zerogouki extends TeamRobot
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
 		back(20);
-	}	
+	}
 
     private double getAcceleration(){
         double acceleration = this.getVelocity() - this.pastVelocity;
@@ -144,7 +148,4 @@ public class Group06zerogouki extends TeamRobot
         double myTankGunToEnemyRadian = myTankToEnemyRadian - this.getGunHeadingRadians();
         this.setTurnGunRightRadians(myTankGunToEnemyRadian);
     }
-}
-		turnRadarRight(360);
-	}
 }
