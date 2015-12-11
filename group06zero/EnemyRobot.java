@@ -1,4 +1,5 @@
 package group06zero;
+<<<<<<< HEAD
 import java.awt.*;
 import robocode.*;
 import java.awt.geom.Point2D;
@@ -11,6 +12,19 @@ public class EnemyRobot {
 	static private double heading;
 
 	EnemyRobot(ScannedRobotEvent e,TeamRobot self){
+=======
+import robocode.*;
+//import java.awt.geom.Point2D;
+
+public class EnemyRobot{
+
+	private String name;
+	private double hp;
+	private double x,y;
+	private double heading;
+
+	EnemyRobot(ScannedRobotEvent e,Group06zerogouki self){
+>>>>>>> origin/#12ogura
 		name = e.getName();
 		hp = e.getEnergy();
 		heading = e.getHeading();
@@ -20,7 +34,11 @@ public class EnemyRobot {
 		heading = e.getHeadingRadians();
 	}
 
+<<<<<<< HEAD
 	public void UpdateEnemy(ScannedRobotEvent e,TeamRobot self){
+=======
+	public void UpdateEnemy(ScannedRobotEvent e,Group06zerogouki self){
+>>>>>>> origin/#12ogura
 		hp = e.getEnergy();
 		heading = e.getHeading();
 		double absBearing=e.getBearingRadians()+self.getHeadingRadians();
