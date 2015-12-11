@@ -149,13 +149,13 @@ public class Group06zerogouki extends AdvancedRobot
         double myHeading = this.getHeading();
         double myMoveDistance = this.getVelocity() + this.getAcceleration() / 2;
         return new Point(
-            myX + (int)(myMoveDistance * Math.sin(Math.toRadians(myHeading))),
-            myY + (int)(myMoveDistance * Math.cos(Math.toRadians(myHeading)))
+				(int)(myX + myMoveDistance * Math.sin(Math.toRadians(myHeading))),
+				(int)(myY + myMoveDistance * Math.cos(Math.toRadians(myHeading)))
         );
     }
 
     //1tick後に自分の戦車が移動した
-    private void setTurnGunToTarget(Point targetPoint){
+    public void setTurnGunToTarget(Point targetPoint){
         Point nextMyPoint = this.getNextMyPoint();
         double myTankToEnemyRadian = Math.atan((nextMyPoint.x - targetPoint.x) / (nextMyPoint.y - targetPoint.y));
         double myTankGunToEnemyRadian = myTankToEnemyRadian - this.getGunHeadingRadians();
