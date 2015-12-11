@@ -8,5 +8,5 @@ public abstract class EvadePattern {
 		this.owner = owner;
 	}
 
-	public abstract void execute(List<BulletInfo> bulleInfoList);
+	public abstract void execute(BulletInfoContainer bulleInfoList);
 }

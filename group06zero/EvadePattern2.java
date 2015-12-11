@@ -1,25 +1,20 @@
-package groupt06zero;
+package group06zero;
 
 import java.util.List;
 
 
-public class EvadePattern1 extends EvadePattern {  // this pattern evade point along with shot orbit
-	
-	public static final double AVOID_RANGE = 5.0;
-	
-	AntiGravity antiGravity;
+public class EvadePattern2 extends EvadePattern {
 
-	public EvadePattern1(Robot owner, AntiGravity antiGravity) {
+	private AntiGravity antiGravity;
+
+	public EvadePattern2(Robot owner, AntiGravity antiGravity) {
 		super(owner);
 		this.antiGravity = antiGravity;
 	}
 
 	public void execute(BulletInfoContainer bulletInfoContainer) {
-		//Vector2D steeringForce = new Vector2D();
 		List<BulletInfo> bulletInfoList = bulletInfoContainer.getBulletList();
 		Vector2D robotPosition = new Vector2D(owner.getX(), owner.getY());
-		Vector2D averagePosition = new Vector2D();
-		int count = 0; // this counts the number of bullets to be avoided
 		foreach(bulletInfo : bulletInfoList) {
 		// this calculate the time bullet will arrive on hypothesized with both of them has the same direction
 			double time = bulletInfo.calArrivingTime(robotPosition);
@@ -29,18 +24,14 @@ public class EvadePattern1 extends EvadePattern {  // this pattern evade point a
 
 			if (!isPointWithinAvoidRange(bulletFuturePosition)) continue;
 
-			count += 1;
-			averagePosition.add(bulletFuturePosition);
+			
+			antiGravity.addF(bulletFuturePosition.x, bulletFuturePosition.y);
 		}
-		averagePosition.mul(1/count);
-		antiGravity.addF(averagePosition.x, averagePosition.y);
-	}
-
-	private Vector2 calForce() {
-
 	}
 
 	private boolean isPointWithinAvoidRange(Vector2D point) {
-		return Math.abs(owner.getX() * owner.getX() + owner.getY() * owner.getY()) <= AVOID_RANGE * AVOID_RANGE;
+		double deltaX = point.x - owner.getX();
+		double deltaY = point.y - owner.getY();
+		return Math.abs(deltaX * deltaX + deltaY * deltaY) <= AVOID_RANGE * AVOID_RANGE;
 	}
 }
