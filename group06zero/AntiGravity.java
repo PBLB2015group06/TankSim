@@ -1,15 +1,14 @@
 package group06zero;
 
 public class AntiGravity{
-	private double width  = 0;
-	private double height = 0;
+	static private double width  = 0;
+	static private double height = 0;
 	private double selfX = 0;
 	private double selfY = 0;
 	private double dis = 0;
 	private double F = 0;
-	private int G = 3000;//Gravitational constant
-	private int wallG = 320000;//Gravitational constant of Wall
-	private double pi = Math.PI;
+	private int G =     3 *(int)Math.pow(10,6);//Gravitational constant
+	private int wallG = 3 *(int)Math.pow(10,7);//Gravitational constant of Wall
 	
 	private double xF = 0;
 	private double yF = 0;
@@ -39,9 +38,9 @@ public class AntiGravity{
 		//Distance
 		dis = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 		//Force
-		F = G/(Math.pow(x,1)+Math.pow(y,1));
-		xF += F*x/dis;
-		yF += F*y/dis;
+		F = G/(Math.pow(x,2)+Math.pow(y,2));
+		xF -= F*x/dis;
+		yF -= F*y/dis;
 		
 		System.out.println("ENEMY F : " + F +" (x..."+ F*x/dis + ", y..." + F*y/dis + ")");
 	}
@@ -54,48 +53,57 @@ public class AntiGravity{
 		dis = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 		//Force
 		F = exG/Math.pow(dis,2);
-		xF += F*x/dis;
-		yF += F*y/dis;
+		xF -= F*x/dis;
+		yF -= F*y/dis;
 	}
 
 	public void move(){
 		double F = 0;
-		double tan = 0;
-		//add force from wall
-		xF += wallG/Math.pow(selfX, 2);//from Left
-		yF += wallG/Math.pow(selfY, 2);//from Bottom
-		xF -= wallG/Math.pow(width - selfX, 2);//from Right
-		yF -= wallG/Math.pow(height - selfY, 2);//from Top
+		//distance which robots avoid from wall
+		int avoid = 10;
 		
-		System.out.println("WALL-top:    "+wallG/Math.pow(height - selfY, 2));
-		System.out.println("WALL-right:  "+wallG/Math.pow(width - selfX, 2));
-		System.out.println("WALL-bottom: "+wallG/Math.pow(selfY, 2));
-		System.out.println("WALL-left:   "+wallG/Math.pow(selfX, 2));
+		//add force from wall
+		xF += wallG/Math.pow(selfX, 3);//from Left
+		yF += wallG/Math.pow(selfY, 3);//from Bottom
+		xF -= wallG/Math.pow(width - selfX, 3);//from Right
+		yF -= wallG/Math.pow(height - selfY, 3);//from Top
+		
+		System.out.println("WALL-top:    "+wallG/Math.pow(height - selfY, 3));
+		System.out.println("WALL-right:  "+wallG/Math.pow(width - selfX, 3));
+		System.out.println("WALL-bottom: "+wallG/Math.pow(selfY, 3));
+		System.out.println("WALL-left:   "+wallG/Math.pow(selfX, 3));
 
 		//check to attack wall
 		//x
 		if(0 < xF && width - selfX < xF){
-			xF = width - selfX - 50;
+			xF = width - selfX - avoid;
 		}else if(xF < 0 && selfX < -xF){
-			xF = -selfX + 50;
+			xF = -selfX + avoid;
 		}
 		//y
 		if(0 < yF && height - selfY < yF){
-			yF = height - selfY - 50;
+			yF = height - selfY - avoid;
 		}else if(yF < 0 && selfY < -yF){
-			yF = -selfY + 50;
+			yF = -selfY + avoid;
 		}
 
 		//MARGE
-		//Angle(relative, -pi to pi)
-		tan = Math.atan2(xF,yF);
+		//Angle(absolute, -180 to 180)
+		ang = Math.toDegrees(Math.atan2(xF,yF));
+		System.out.println("ABSOLUTE: ang= "+ang);
+
 		//Angle(relative, -180 to 180)
-		ang = 180*tan/pi;
-		ang -= self.getHeading() - 180;
+		ang -= self.getHeading();
+		if(ang < -180){
+			ang += 360;
+		}
+		System.out.println("RELATIVE: ang= "+ang);
 		
 		//Force(local)
 		F = Math.sqrt(Math.pow(xF,2)+Math.pow(yF,2));
-		
+
+		System.out.println("MOVE:xF= "+xF+", yF= "+yF);
+		System.out.println("HEAD:ang= "+self.getHeading());
 		System.out.println("MOVE:ang= " + ang + ", F= " + F);
 		
 		turn(ang, F);
@@ -105,6 +113,7 @@ public class AntiGravity{
 	}
 
 	private void turn(double ang, double F){
+
 		if(-90 < ang && ang < 90){
 			if(0 < ang){
 				self.setTurnRight(ang);
