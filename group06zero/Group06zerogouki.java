@@ -8,7 +8,7 @@ import java.util.*;//for list
 /**
  * Group06zerogouki - a robot by (your name here)
  */
-public class Group06zerogouki extends AdvancedRobot
+public class Group06zerogouki extends TeamRobot
 {
 	List<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
 	AntiGravity g;
@@ -42,20 +42,22 @@ public class Group06zerogouki extends AdvancedRobot
 	public void onScannedRobot(ScannedRobotEvent e) {
 		int i;
 		// Replace the next line with any behavior you would like
-
-		for (i = 0; i < EnemyList.size(); i++) {
-			EnemyRobot tmp = EnemyList.get(i);
-			if(tmp.getEnemyName().equals(e.getName())){
-				tmp.UpdateEnemy(e, this);
-				out.println("UPDATE" + e.getName());
-				break;
+		if(isTeammate(e.getName())){
+			g.addFally(e);
+		}else{
+			for (i = 0; i < EnemyList.size(); i++) {
+				EnemyRobot tmp = EnemyList.get(i);
+				if(tmp.getEnemyName().equals(e.getName())){
+					tmp.UpdateEnemy(e, this);
+					out.println("UPDATE" + e.getName());
+					break;
+				}
+				out.println("LIST:[" + i + "] " + tmp.getEnemyName());
 			}
-			out.println("LIST:[" + i + "] " + tmp.getEnemyName());
-		}
-
-		if(i == EnemyList.size()){
-			EnemyList.add((EnemyRobot)new EnemyRobot(e, this));
-			out.println("INDERT" + e.getName());
+			if(i == EnemyList.size()){
+				EnemyList.add((EnemyRobot)new EnemyRobot(e, this));
+				out.println("INSERT" + e.getName());
+			}
 		}
 	}
 

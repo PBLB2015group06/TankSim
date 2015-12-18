@@ -1,5 +1,7 @@
 package group06zero;
 
+import robocode.ScannedRobotEvent;
+
 public class AntiGravity{
 	static private double width  = 0;
 	static private double height = 0;
@@ -7,12 +9,20 @@ public class AntiGravity{
 	private double selfY = 0;
 	private double dis = 0;
 	private double F = 0;
-	private int G =     3 *(int)Math.pow(10,6);//Gravitational constant
+	private int G =     3 *(int)Math.pow(10,6);//Gravitational constant of Enemy
+	private int allyG = 3 *(int)Math.pow(10,7);//Gravitational constant of Ally
 	private int wallG = 3 *(int)Math.pow(10,7);//Gravitational constant of Wall
 	
 	private double xF = 0;
 	private double yF = 0;
 	private double ang = 0;
+	
+	private String ally1 = "";
+	private double ally1xF = 0;
+	private double ally1yF = 0;
+	private String ally2 = "";
+	private double ally2xF = 0;
+	private double ally2yF = 0;
 
 	private Group06zerogouki self;
 
@@ -44,6 +54,34 @@ public class AntiGravity{
 		
 		System.out.println("ENEMY F : " + F +" (x..."+ F*x/dis + ", y..." + F*y/dis + ")");
 	}
+
+	public void addFally(ScannedRobotEvent e){
+		double x = 0;
+		double y = 0;
+		double ang = e.getBearingRadians()+self.getHeadingRadians();
+		double dis = e.getDistance();
+		String name = e.getName();
+
+		if(!ally1.equals(name)){
+			ally1 = e.getName();
+		}else if(!ally2.equals(name)){
+			ally2 = e.getName();
+		}
+
+		//Ally's position(relative)
+		x = dis*Math.sin(ang);
+		y = dis*Math.cos(ang);
+
+		//Force
+		F = allyG/Math.pow(dis,2);
+		if(ally1.equals(name)){
+			ally1xF = F*x/dis ;
+			ally1yF = F*y/dis ;
+		}else if(ally2.equals(name)){
+			ally2xF = F*x/dis ;
+			ally2yF = F*y/dis ;
+		}
+	}
 	
 	public void addFpoint(double exG, double x, double y){
 		//relative position
@@ -67,11 +105,13 @@ public class AntiGravity{
 		yF += wallG/Math.pow(selfY, 3);//from Bottom
 		xF -= wallG/Math.pow(width - selfX, 3);//from Right
 		yF -= wallG/Math.pow(height - selfY, 3);//from Top
-		
-		System.out.println("WALL-top:    "+wallG/Math.pow(height - selfY, 3));
-		System.out.println("WALL-right:  "+wallG/Math.pow(width - selfX, 3));
-		System.out.println("WALL-bottom: "+wallG/Math.pow(selfY, 3));
-		System.out.println("WALL-left:   "+wallG/Math.pow(selfX, 3));
+
+		//add force from ally
+		xF -= ally1xF + ally2xF;
+		yF -= ally1yF + ally2yF;
+
+		System.out.println("ALLY[1]:"+ally1+", xF="+ally1xF+", yF= "+ally1yF);
+		System.out.println("ALLY[2]:"+ally2+", xF="+ally2xF+", yF= "+ally2yF);
 
 		//check to attack wall
 		//x
@@ -103,7 +143,6 @@ public class AntiGravity{
 		F = Math.sqrt(Math.pow(xF,2)+Math.pow(yF,2));
 
 		System.out.println("MOVE:xF= "+xF+", yF= "+yF);
-		System.out.println("HEAD:ang= "+self.getHeading());
 		System.out.println("MOVE:ang= " + ang + ", F= " + F);
 		
 		turn(ang, F);
