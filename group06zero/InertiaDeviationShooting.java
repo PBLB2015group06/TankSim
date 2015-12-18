@@ -4,9 +4,9 @@ import robocode.*;
 
 //慣性偏差射撃
 public class InertiaDeviationShooting extends ShootingMethod{
-    private TeamRobot myTank;
+    private Group06zerogouki myTank;
 
-    public InertiaDeviationShooting(TeamRobot myTank){
+    public InertiaDeviationShooting(Group06zerogouki myTank){
         this.myTank = myTank;
     }
 
