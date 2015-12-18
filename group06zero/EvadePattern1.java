@@ -1,12 +1,14 @@
-package groupt06zero;
+package group06zero;
+
+import robocode.TeamRobot;
 
 public class EvadePattern1 extends EvadePattern {  // this pattern evade point along with shot orbit
-	
+
 	public static float EVADE_CONSTANT = 30.0;
 	public static double AVOID_RANGE = 5.0;
 	AntiGravity antiGravity;
 
-	public EvadePattern1(Robot owner, AntiGravity antiGravity) {
+	public EvadePattern1(TeamRobot owner, AntiGravity antiGravity) {
 		super(owner);
 		this.antiGravity = antiGravity;
 	}

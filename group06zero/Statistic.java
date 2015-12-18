@@ -1,6 +1,7 @@
 package group06zero;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.HashMap;
 import java.util.Collection;
 
@@ -18,7 +19,7 @@ public abstract class Statistic<T> {
 		this.evadePatternMap = new HashMap<>();
 		this.scoreMap = new HashMap<>();
 		totalScore = 0;
-		
+
 	}
 
 	public void addPattern(String patternName, T pattern) {
