@@ -10,7 +10,7 @@ public class AntiGravity{
 	private double dis = 0;
 	private double F = 0;
 	private int G =     3 *(int)Math.pow(10,6);//Gravitational constant of Enemy
-	private int allyG = 3 *(int)Math.pow(10,7);//Gravitational constant of Ally
+	private int allyG = 6 *(int)Math.pow(10,6);//Gravitational constant of Ally
 	private int wallG = 3 *(int)Math.pow(10,7);//Gravitational constant of Wall
 	
 	private double xF = 0;
@@ -62,12 +62,6 @@ public class AntiGravity{
 		double dis = e.getDistance();
 		String name = e.getName();
 
-		if(!ally1.equals(name)){
-			ally1 = e.getName();
-		}else if(!ally2.equals(name)){
-			ally2 = e.getName();
-		}
-
 		//Ally's position(relative)
 		x = dis*Math.sin(ang);
 		y = dis*Math.cos(ang);
@@ -77,9 +71,35 @@ public class AntiGravity{
 		if(ally1.equals(name)){
 			ally1xF = F*x/dis ;
 			ally1yF = F*y/dis ;
+			System.out.println("ADD ALLY 1 : "+name);
 		}else if(ally2.equals(name)){
 			ally2xF = F*x/dis ;
 			ally2yF = F*y/dis ;
+			System.out.println("ADD ALLY 2 : "+name);
+		}else if(ally1.equals("")){
+			ally1 = e.getName();
+			ally2xF = F*x/dis ;
+			ally2yF = F*y/dis ;
+			System.out.println("ADD ALLY 1 : "+name);
+		}else if(ally2.equals("")){
+			ally2 = e.getName();
+			ally2xF = F*x/dis ;
+			ally2yF = F*y/dis ;
+			System.out.println("ADD ALLY 2 : "+name);
+		}
+	}
+	
+	public void removeFally(String name){
+		if(ally1.equals(name)){
+			ally1 = "";
+			ally1xF = 0;
+			ally1yF = 0;
+			System.out.println("REMOVE ALLY 1 : "+name);
+		}else if(ally2.equals(name)){
+			ally2 = "";
+			ally2xF = 0;
+			ally2yF = 0;
+			System.out.println("REMOVE ALLY 2 : "+name);
 		}
 	}
 	

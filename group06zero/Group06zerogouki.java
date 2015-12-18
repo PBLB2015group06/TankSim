@@ -76,4 +76,10 @@ public class Group06zerogouki extends TeamRobot
 		// Replace the next line with any behavior you would like
 		turnRadarRight(360);
 	}
+	
+	public void onRobotDeath(RobotDeathEvent e){
+		if(isTeammate(e.getName())){
+			g.removeFally(e.getName());
+		}
+	}
 }
