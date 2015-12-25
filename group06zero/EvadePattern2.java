@@ -1,10 +1,11 @@
 package group06zero;
 
 import java.util.List;
-
+import robocode.*;
 
 public class EvadePattern2 extends EvadePattern {
-
+	
+	public static final double AVOID_RANGE = 10.0;
 	private AntiGravity antiGravity;
 
 	public EvadePattern2(Robot owner, AntiGravity antiGravity) {
@@ -15,7 +16,7 @@ public class EvadePattern2 extends EvadePattern {
 	public void execute(BulletInfoContainer bulletInfoContainer) {
 		List<BulletInfo> bulletInfoList = bulletInfoContainer.getBulletList();
 		Vector2D robotPosition = new Vector2D(owner.getX(), owner.getY());
-		foreach(bulletInfo : bulletInfoList) {
+		for (BulletInfo bulletInfo : bulletInfoList) {
 		// this calculate the time bullet will arrive on hypothesized with both of them has the same direction
 			double time = bulletInfo.calArrivingTime(robotPosition);
 			Vector2D bulletFuturePosition = bulletInfo.calFuturePosition(time);
