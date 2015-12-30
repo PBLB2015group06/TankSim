@@ -34,10 +34,12 @@ public class Group06zerogouki extends TeamRobot
 
     private double pastVelocity = 0;
     private InertiaDeviationShooting inertiaDeviationShooting;
+    private PinpointShooting pinpoitShooting;
 	private ShootingMethod shootingMethod;
 
     public Group06zerogouki(){
         this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
+        this.pinpoitShooting = new PinpointShooting(this);
         this.shootingMethod = inertiaDeviationShooting;
     }
 
