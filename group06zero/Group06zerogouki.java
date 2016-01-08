@@ -83,9 +83,9 @@ public class Group06zerogouki extends TeamRobot
             onEvade = true;
             double bulletHeading = getHeading() + e.getBearing();
 
-            bulletList.Add(new BulletInfo(x, y, bulletHeading));
-            if (statsForEvede.isInfoEnough()) {
-                evadePattern = statsForEvede.getMostScoredPattern();
+            //bulletList.add(new BulletInfo(x, y, bulletHeading));
+            if (false) {
+                //evadePattern = statsForEvede.getMostScoredPattern();
             }
         }
         //---------------------------------
@@ -113,7 +113,7 @@ public class Group06zerogouki extends TeamRobot
 		// Replace the next line with any behavior you would like
 		back(10);
 
-        statsForEvede.estimateScore(evadePattern, -10);
+        //statsForEvede.estimateScore(evadePattern, -10);
 		turnRadarRight(360);
 	}
 
