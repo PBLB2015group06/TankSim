@@ -1,11 +1,12 @@
 package group06zero;
 
+import java.util.Random;
 import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Collection;
 
-public abstract class Statistic<T> {
+public class Statistic<T> {
 	public static final double INITIAL_SCORE = 50;
 
 	private Map<String, T> patternMap;
@@ -15,25 +16,33 @@ public abstract class Statistic<T> {
 
 	private Random rnd = new Random();
 
+<<<<<<< HEAD
 	public StatisticForEvade() {
 		this.evadePatternMap = new HashMap<>();
 		this.scoreMap = new HashMap<>();
 		totalScore = 0;
 
+=======
+	public Statistic() {
+		this.patternMap = new HashMap<String, T>();
+		this.scoreMap = new HashMap<String, Double>();
+		this.totalScore = 0;
+		
+>>>>>>> feature/#12Sasaki
 	}
 
 	public void addPattern(String patternName, T pattern) {
-		map.put(patternName, evadePattern);
+		patternMap.put(patternName, pattern);
 		totalScore += INITIAL_SCORE;
 	}
 
 	public T getMostScoredPattern() {
-		maxScore = -1000;
-		String scoredPatternKey;
-		foreach(key, score : scoreMap) {
-			if (score > maxScore) {
-				maxScore = score;
-				scoredPatternKey = key;
+		double maxScore = -10000;
+		String scoredPatternKey = "Pattern1";
+		for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
+			if (e.getValue() > maxScore) {
+				maxScore = e.getValue();
+				scoredPatternKey = e.getKey();
 			}
 		}
 		return patternMap.get(scoredPatternKey);
@@ -43,13 +52,14 @@ public abstract class Statistic<T> {
 		double randomNum = rnd.nextDouble();
 		int accumulation = 0;
 		Collection<T> patternCollection = patternMap.values();
-		foreach (pattern : patternCollection {
-			normalizedScore = scoreMap.get(pattern) / totalScore;
+		for (T pattern : patternCollection) {
+			double normalizedScore = scoreMap.get(pattern) / totalScore;
 			if (accumulation <= randomNum && randomNum <= normalizedScore) {
 				return patternMap.get(pattern);
 			}
 			accumulation += normalizedScore;
 		}
+		return null;
 	}
 
 	public boolean isEnoughInfo() {

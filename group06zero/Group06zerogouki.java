@@ -31,11 +31,11 @@ public class Group06zerogouki extends TeamRobot
     private boolean onEvade = false;
 
     private List<BulletInfo> bulletList = new ArrayList<BulletInfo>();
-
+    
     private double pastVelocity = 0;
     private InertiaDeviationShooting inertiaDeviationShooting;
 	private ShootingMethod shootingMethod;
-
+    
     public Group06zerogouki(){
         this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
         this.shootingMethod = inertiaDeviationShooting;
@@ -82,7 +82,8 @@ public class Group06zerogouki extends TeamRobot
         if (currentHp != previousHp) {
             onEvade = true;
             double bulletHeading = getHeading() + e.getBearing();
-            bulletList.add(new BulletInfo(enemyRobot.getEnemyX(), enemyRobot.getEnemyY(), bulletHeading));
+
+            bulletList.Add(new BulletInfo(x, y, bulletHeading));
             if (statsForEvede.isInfoEnough()) {
                 evadePattern = statsForEvede.getMostScoredPattern();
             }

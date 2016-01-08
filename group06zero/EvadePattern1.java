@@ -1,11 +1,15 @@
 package group06zero;
 
 import robocode.TeamRobot;
+import java.util.List;
+import robocode.*;
+
 
 public class EvadePattern1 extends EvadePattern {  // this pattern evade point along with shot orbit
-
+	
 	public static float EVADE_CONSTANT = 30.0;
-	public static double AVOID_RANGE = 5.0;
+	public static final double AVOID_RANGE = 5.0;
+	
 	AntiGravity antiGravity;
 
 	public EvadePattern1(TeamRobot owner, AntiGravity antiGravity) {
@@ -13,12 +17,13 @@ public class EvadePattern1 extends EvadePattern {  // this pattern evade point a
 		this.antiGravity = antiGravity;
 	}
 
-	public void execute(List<BulletInfo> bulletInfoList) {
+	public void execute(BulletInfoContainer bulletInfoContainer) {
 		//Vector2D steeringForce = new Vector2D();
+		List<BulletInfo> bulletInfoList = bulletInfoContainer.getBulletList();
 		Vector2D robotPosition = new Vector2D(owner.getX(), owner.getY());
 		Vector2D averagePosition = new Vector2D();
 		int count = 0; // this counts the number of bullets to be avoided
-		foreach(bulletInfo : bulletInfoList) {
+		for (BulletInfo bulletInfo : bulletInfoList) {
 		// this calculate the time bullet will arrive on hypothesized with both of them has the same direction
 			double time = bulletInfo.calArrivingTime(robotPosition);
 			Vector2D bulletFuturePosition = bulletInfo.calFuturePosition(time);
@@ -34,7 +39,7 @@ public class EvadePattern1 extends EvadePattern {  // this pattern evade point a
 		antiGravity.addF(averagePosition.x, averagePosition.y);
 	}
 
-	private Vector2 calForce() {
+	private Vector2D calForce() {
 
 	}
 
