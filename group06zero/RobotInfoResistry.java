@@ -6,7 +6,7 @@ import robocode.TeamRobot;
 
 // 敵ロボットの情報をまとめて保持し、ロボットの情報を返すメソッドを持つクラス
 
-static public class RobotInfoResistry {
+public class RobotInfoResistry {
 
 	private static ArrayList<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
 
