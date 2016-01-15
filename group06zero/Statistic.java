@@ -16,19 +16,10 @@ public class Statistic<T> {
 
 	private Random rnd = new Random();
 
-<<<<<<< HEAD
-	public StatisticForEvade() {
-		this.evadePatternMap = new HashMap<>();
-		this.scoreMap = new HashMap<>();
-		totalScore = 0;
-
-=======
 	public Statistic() {
 		this.patternMap = new HashMap<String, T>();
 		this.scoreMap = new HashMap<String, Double>();
 		this.totalScore = 0;
-		
->>>>>>> feature/#12Sasaki
 	}
 
 	public void addPattern(String patternName, T pattern) {

@@ -10,6 +10,8 @@ public class RobotInfoResistry {
 
 	private static ArrayList<EnemyRobot> EnemyList = new ArrayList<EnemyRobot>();
 
+	public RobotInfoResistry() {}
+
 	public static EnemyRobot getRobotInfo(ScannedRobotEvent e,TeamRobot me){
 
 		EnemyRobot enemy = new EnemyRobot(e,me);
@@ -22,5 +24,30 @@ public class RobotInfoResistry {
 			EnemyList.add(enemy);
 			return enemy;
 		}
+	}
+	
+	public ArrayList<EnemyRobot> getEnemyRobotInfoList() {
+			return EnemyList;
+	}
+	
+	public EnemyRobot getEnemyRobotInfo(ScannedRobotEvent e) {
+		for (EnemyRobot enemy : EnemyList) {
+			if (enemy.getEnemyName() == e.getName()) {
+				return enemy;
+			}
+		}
+		return null;
+	}
+
+	public void addEnemyRobotInfo(ScannedRobotEvent e, TeamRobot me) {
+		
+		for (EnemyRobot enemy : EnemyList) {
+			if (enemy.getEnemyName() == e.getName()) {
+				enemy.UpdateEnemy(e, me);
+				return;
+			}
+		}
+
+		EnemyList.add(new EnemyRobot(e, me));
 	}
 }

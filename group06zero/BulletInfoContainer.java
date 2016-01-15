@@ -20,5 +20,17 @@ public class BulletInfoContainer
 	public List<BulletInfo> getBulletList() {
 		return bulletInfoList;
 	}
-
+	
+	public void updateBullets(double deltaTime) {
+		for (BulletInfo bulletInfo : bulletInfoList) {
+			//bulletInfo.update(deltaTime);
+			
+			if (bulletInfo.isBulletOutOfField())
+				bulletInfoList.remove(bulletInfo);
+		}
+	}
+	
+	public void removeBulletInfo(int index) {
+		bulletInfoList.remove(index);
+	}
 }
