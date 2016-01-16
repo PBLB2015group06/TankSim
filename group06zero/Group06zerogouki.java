@@ -24,13 +24,14 @@ public class Group06zerogouki extends TeamRobot
 	/**
 	 * run: Group06zerogouki's default behavior
 	 */
-    private StatisticForEvade statsForEvede;
 
     private EvadePattern evadePattern;
+	private double bulletSpeed = 17.0;
+	private RobotInfoResistry robotInfoResistry;
 
     private boolean onEvade = false;
 
-    private List<BulletInfo> bulletList = new ArrayList<BulletInfo>();
+	private BulletInfoContainer bulletInfoContainer;
     
     private double pastVelocity = 0;
     private InertiaDeviationShooting inertiaDeviationShooting;
@@ -39,6 +40,8 @@ public class Group06zerogouki extends TeamRobot
     public Group06zerogouki(){
         this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
         this.shootingMethod = inertiaDeviationShooting;
+		this.robotInfoResistry = new RobotInfoResistry();
+		this.bulletInfoContainer = new BulletInfoContainer();
     }
 
 	public void run() {
@@ -49,20 +52,21 @@ public class Group06zerogouki extends TeamRobot
 
 		// setColors(Color.red,Color.blue,Color.green); // body,gun,radar
 		g = new AntiGravity(this);
-		turnRadarRight(360);
+		evadePattern = new EvadePattern2(this, g);
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-			ahead(100);
-			turnGunRight(360);
-			back(100);
-			turnGunRight(360);
-            this.pastVelocity = this.getVelocity();
+			//this.pastVelocity = this.getVelocity();
 			g.getMyPosition();
-			for (int i = 0; i < EnemyList.size(); i++) {
-				g.addFrobot(EnemyList.get(i));
-			}
+			//for (int i = 0; i < EnemyList.size(); i++) {
+			//	g.addFrobot(EnemyList.get(i));
+			//}
 			g.move();
+			//g.addFpoint(100, getX(), getY());
+			//bulletInfoContainer.updateBullets(1);
+			evadePattern.execute(bulletInfoContainer);
+			setTurnRadarRight(60);
+			execute();
 		}
 	}
 
@@ -71,25 +75,11 @@ public class Group06zerogouki extends TeamRobot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 		int i;
-        this.shootingMethod.fire(1,e);
-		fire(1);
-        //-------回避するべきかどうか---------
-        EnemyRobot enemyRobot = RobotInfoResistry.getRobotInfo(e,this);
+        //this.shootingMethod.fire(1,e);
+		//fire(1);
 
-        double previousHp = enemyRobot.getEnemyHp();
-        double currentHp  = e.getEnergy();
-
-        if (currentHp != previousHp) {
-            onEvade = true;
-            double bulletHeading = getHeading() + e.getBearing();
-
-            //bulletList.add(new BulletInfo(x, y, bulletHeading));
-            if (false) {
-                //evadePattern = statsForEvede.getMostScoredPattern();
-            }
-        }
-        //---------------------------------
-
+        setAvoid(e);
+		
 		for (i = 0; i < EnemyList.size(); i++) {
 			EnemyRobot tmp = EnemyList.get(i);
 			if(tmp.getEnemyName().equals(e.getName())){
@@ -111,10 +101,10 @@ public class Group06zerogouki extends TeamRobot
 	 */
 	public void onHitByBullet(HitByBulletEvent e) {
 		// Replace the next line with any behavior you would like
-		back(10);
-
+		
+		bulletSpeed = e.getVelocity();
+		bulletInfoContainer.removeBulletInfo(0);
         //statsForEvede.estimateScore(evadePattern, -10);
-		turnRadarRight(360);
 	}
 
 	/**
@@ -122,14 +112,13 @@ public class Group06zerogouki extends TeamRobot
 	 */
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
-		back(20);
 	}
 
     private double getAcceleration(){
         double acceleration = this.getVelocity() - this.pastVelocity;
         return acceleration;
     }
-
+ 
     //1tick後の自分の戦車の位置を取得する
     private Point getNextMyPoint(){
         double myX = this.getX();
@@ -149,4 +138,29 @@ public class Group06zerogouki extends TeamRobot
         double myTankGunToEnemyRadian = myTankToEnemyRadian - this.getGunHeadingRadians();
         this.setTurnGunRightRadians(myTankGunToEnemyRadian);
     }
+	
+	private void setAvoid(ScannedRobotEvent e) {
+		EnemyRobot enemyRobot = robotInfoResistry.getEnemyRobotInfo(e);
+		
+		if (enemyRobot == null) {
+			robotInfoResistry.addEnemyRobotInfo(e, this);
+			return;
+		} else {
+			double previousHP = enemyRobot.getEnemyHp();
+			double currentHP = e.getEnergy();
+			
+			if (previousHP != currentHP) {
+				onEvade = true;
+            	double bulletHeading = getHeading() + e.getBearing();
+				double x = getX() + e.getDistance() * Math.sin(bulletHeading);
+				double y = getY() + e.getDistance() * Math.cos(bulletHeading);
+				
+            	bulletInfoContainer.add(new BulletInfo(x, y, bulletHeading, bulletSpeed));
+            	if (false) {
+                	//evadePattern = statsForEvede.getMostScoredPattern();
+            	}
+			}
+			robotInfoResistry.addEnemyRobotInfo(e, this);
+		}
+	}
 }

@@ -63,7 +63,7 @@ public class Vector2D {
 	public static Vector2D GetDirectionalVectorFromDegree(double angle) {
 		double x = Math.sin(Math.toRadians(angle));
 		double y = Math.cos(Math.toRadians(angle));
-		return new Vector2D(x, y);
+		return new Vector2D(x, y).normalized();
 	}
 
 	public static Vector2D GetRotatedVector2D(Vector2D vector, double angle) {
