@@ -132,7 +132,7 @@ public class Group06zerogouki extends TeamRobot
     }
 
     //1tick後の自分の戦車の位置を取得する
-    private Point getNextMyPoint(){
+    public Point getNextMyPoint(){
         double myX = this.getX();
         double myY = this.getY();
         double myHeading = this.getHeading();
