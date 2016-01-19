@@ -7,7 +7,8 @@ import java.util.ArrayList;
  */
 public class BulletInfoContainer
 {
-	List<BulletInfo> bulletInfoList;
+	private List<BulletInfo> bulletInfoList;
+	private long removeInterval = 300;
 
 	public BulletInfoContainer() {
 		this.bulletInfoList = new ArrayList<BulletInfo>();
@@ -23,13 +24,22 @@ public class BulletInfoContainer
 	
 	public void updateBullets(double deltaTime) {
 		for (BulletInfo bulletInfo : bulletInfoList) {
-			//bulletInfo.update(deltaTime);
-			
+			bulletInfo.update(deltaTime);
 			if (bulletInfo.isBulletOutOfField())
 				bulletInfoList.remove(bulletInfo);
 		}
 	}
 	
+	public void removeBullet(long noFrame) {
+		
+		if (bulletInfoList.size() == 0)
+			return;		
+
+		if (noFrame % removeInterval == 0) {
+			bulletInfoList.remove(0);
+		}
+	}
+
 	public void removeBulletInfo(int index) {
 		bulletInfoList.remove(index);
 	}
