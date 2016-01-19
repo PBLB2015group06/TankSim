@@ -65,6 +65,7 @@ public class Group06zerogouki extends TeamRobot
 			//g.addFpoint(100, getX(), getY());
 			//bulletInfoContainer.updateBullets(1);
 			evadePattern.execute(bulletInfoContainer);
+			bulletInfoContainer.removeBullet(getTime());
 			setTurnRadarRight(60);
 			execute();
 		}
@@ -103,7 +104,7 @@ public class Group06zerogouki extends TeamRobot
 		// Replace the next line with any behavior you would like
 		
 		bulletSpeed = e.getVelocity();
-		bulletInfoContainer.removeBulletInfo(0);
+		//bulletInfoContainer.removeBulletInfo(0);
         //statsForEvede.estimateScore(evadePattern, -10);
 	}
 
@@ -141,7 +142,7 @@ public class Group06zerogouki extends TeamRobot
 	
 	private void setAvoid(ScannedRobotEvent e) {
 		EnemyRobot enemyRobot = robotInfoResistry.getEnemyRobotInfo(e);
-		
+		System.out.println(e.getName());
 		if (enemyRobot == null) {
 			robotInfoResistry.addEnemyRobotInfo(e, this);
 			return;
@@ -159,6 +160,7 @@ public class Group06zerogouki extends TeamRobot
             	if (false) {
                 	//evadePattern = statsForEvede.getMostScoredPattern();
             	}
+				//bulletInfoContainer.removeBullet();
 			}
 			robotInfoResistry.addEnemyRobotInfo(e, this);
 		}

@@ -27,11 +27,11 @@ public class EvadePattern1 extends EvadePattern {  // this pattern evade point a
 		for (BulletInfo bulletInfo : bulletInfoList) {
 		// this calculate the time bullet will arrive on hypothesized with both of them has the same direction
 			double time = bulletInfo.calArrivingTime(robotPosition);System.out.println(time);
-			Vector2D bulletFuturePosition = bulletInfo.calFuturePosition(time);
+			Vector2D bulletFuturePosition = bulletInfo.calFuturePosition(time/100);
 			//robotLocalPosition = Vector2D.GetRotatedVector2D(robotPosition.sub(bulletFuturePosition),
 			//												 bulletInfo.getHeading());
 			
-			if (!isPointWithinAvoidRange(bulletFuturePosition)) continue;
+			//if (!isPointWithinAvoidRange(bulletFuturePosition)) continue;
 
 			count += 1;
 			averagePosition.add(bulletFuturePosition);
@@ -40,7 +40,7 @@ public class EvadePattern1 extends EvadePattern {  // this pattern evade point a
 		if (count == 0) return;
 		System.out.println(averagePosition.x);
 		averagePosition.mul(1/count);
-		antiGravity.addFpoint(1000, averagePosition.x, averagePosition.y);
+		antiGravity.addFpoint(10000000, averagePosition.x, averagePosition.y);
 	}
 
 	private boolean isPointWithinAvoidRange(Vector2D point) {
