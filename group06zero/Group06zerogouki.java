@@ -3,8 +3,10 @@ import java.awt.Point;
 //for list
 //import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import robocode.BulletHitEvent;
 import robocode.HitByBulletEvent;
 import robocode.HitWallEvent;
 import robocode.ScannedRobotEvent;
@@ -22,8 +24,8 @@ public class Group06zerogouki extends TeamRobot
 	AntiGravity g;
 
 	/**
-	 * run: Group06zerogouki's default behavior
-	 */
+	* run: Group06zerogouki's default behavior
+	*/
     private StatisticForEvade statsForEvede;
 
     private EvadePattern evadePattern;
@@ -33,14 +35,13 @@ public class Group06zerogouki extends TeamRobot
     private List<BulletInfo> bulletList = new ArrayList<BulletInfo>();
 
     private double pastVelocity = 0;
-    private InertiaDeviationShooting inertiaDeviationShooting;
-    private PinpointShooting pinpoitShooting;
 	private ShootingMethod shootingMethod;
+	private ShootingMethodSelector shootingMethodSelector;
+	private HashMap<String, ShootingMethodSelector> shootingMethodSelectorList;
+	private boolean hasHit = false;
 
     public Group06zerogouki(){
-        this.inertiaDeviationShooting = new InertiaDeviationShooting(this);
-        this.pinpoitShooting = new PinpointShooting(this);
-        this.shootingMethod = inertiaDeviationShooting;
+        this.shootingMethodSelectorList = new HashMap<String, ShootingMethodSelector>();
     }
 
 	public void run() {
@@ -105,6 +106,16 @@ public class Group06zerogouki extends TeamRobot
 			EnemyList.add((EnemyRobot)new EnemyRobot(e, this));
 			out.println("INDERT" + e.getName());
 		}
+		
+		//射撃
+		this.shootingMethodSelector.reflectProbability(hasHit);
+		this.hasHit = false;
+		if(this.shootingMethodSelectorList.get(e.getName()) == null)
+			this.shootingMethodSelectorList.put(e.getName(), new ShootingMethodSelector(this));
+		this.shootingMethodSelector = this.shootingMethodSelectorList.get(e.getName());
+		this.shootingMethod = this.shootingMethodSelector.selectMethod();
+		if(this.shootingMethod != null)
+			this.shootingMethod.fire(this.shootingMethodSelector.bullet_power, e);
 	}
 
 	/**
@@ -124,6 +135,10 @@ public class Group06zerogouki extends TeamRobot
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
 		back(20);
+	}
+	
+	public void onBulletHit(BulletHitEvent e){
+		this.hasHit = true;
 	}
 
     private double getAcceleration(){
